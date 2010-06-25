@@ -1,6 +1,7 @@
 = SimpleSearch
 
 SimpleSearch brings simple search to ActiveRecord. It ads <tt>simple_search</tt> named scope that accepts query as parameter.
+
 The idea is that you provide the query and plugin does the rest (parse query and compose where statement).
 
 As you can see from example below, it works best in combination with a simple search form.
