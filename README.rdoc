@@ -1,0 +1,51 @@
+= SimpleSearch
+
+SimpleSearch brings simple search to ActiveRecord. It ads <tt>simple_search</tt> named scope that accepts query as parameter.
+The idea is that you provide the query and plugin does the rest (parse query and compose where statement).
+
+As you can see from example below, it works best in combination with a simple search form.
+
+== Example
+
+=== View
+
+  <% form_tag request.path, :method => 'get' do %>
+    <%= text_field_tag :query, params[:query] %>
+  <% end %>
+
+=== Model
+
+  # Columns: id, login, email, crypted_password, salt
+  
+  class User < ActiveRecord::Base
+    acts_as_simply_searchable
+  end
+
+=== Controller
+
+class UsersController < ApplicationController
+  def index
+    @users = User.simple_search(params[:query]).all
+  end
+end
+
+=== Query examples
+
+Simple query
+
+  User.simple_search("vlado") # => SELECT * FROM "users" WHERE ((users.id LIKE '%vlado%' OR users.login LIKE '%vlado%' OR users.email LIKE '%vlado%' OR users.crypted_password LIKE '%vlado%' OR users.salt LIKE '%vlado%')) 
+  
+You can also provide <tt>:columns => :column1, :column2</tt> option to <tt>acts_as_simply_searchable</tt> to limit search only to those columns
+  
+  class User < ActiveRecord::Base
+    acts_as_simply_searchable :columns => :login, :email
+  end
+  
+  User.simple_search("vlado") # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%'))
+  
+More complex query
+  
+  User.simple_search("vlado, cingel") # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%') AND (users.login LIKE '%cingel%' OR users.email LIKE '%cingel%'))
+
+
+Copyright (c) 2010 Vlado Cingel, released under the MIT license
