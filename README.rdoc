@@ -14,26 +14,27 @@ As you can see from example below, it works best in combination with a simple se
   <% end %>
 
 === Model
-
-  # Columns: id, login, email, crypted_password, salt
   
   class User < ActiveRecord::Base
     acts_as_simply_searchable
   end
+  
+  # Columns: id, login, email, crypted_password, salt
 
 === Controller
 
-class UsersController < ApplicationController
-  def index
-    @users = User.simple_search(params[:query]).all
+  class UsersController < ApplicationController
+    def index
+      @users = User.simple_search(params[:query]).all
+    end
   end
-end
 
 === Query examples
 
 Simple query
 
-  User.simple_search("vlado") # => SELECT * FROM "users" WHERE ((users.id LIKE '%vlado%' OR users.login LIKE '%vlado%' OR users.email LIKE '%vlado%' OR users.crypted_password LIKE '%vlado%' OR users.salt LIKE '%vlado%')) 
+  User.simple_search("vlado")
+  # => SELECT * FROM "users" WHERE (users.id LIKE '%vlado%' OR users.login LIKE '%vlado%' OR users.email LIKE '%vlado%' OR users.crypted_password LIKE '%vlado%' OR users.salt LIKE '%vlado%') 
   
 You can also provide <tt>:columns => :column1, :column2</tt> option to <tt>acts_as_simply_searchable</tt> to limit search only to those columns
   
@@ -41,11 +42,13 @@ You can also provide <tt>:columns => :column1, :column2</tt> option to <tt>acts_
     acts_as_simply_searchable :columns => :login, :email
   end
   
-  User.simple_search("vlado") # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%'))
+  User.simple_search("vlado")
+  # => SELECT * FROM "users" WHERE (users.login LIKE '%vlado%' OR users.email LIKE '%vlado%')
   
 More complex query
   
-  User.simple_search("vlado, cingel") # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%') AND (users.login LIKE '%cingel%' OR users.email LIKE '%cingel%'))
+  User.simple_search("vlado, cingel")
+  # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%') AND (users.login LIKE '%cingel%' OR users.email LIKE '%cingel%'))
 
 
 Copyright (c) 2010 Vlado Cingel, released under the MIT license
