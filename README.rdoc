@@ -52,6 +52,9 @@ More complex query
   # will search for users matching 'vlado' and 'cingel' keywords
   # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%') AND (users.login LIKE '%cingel%' OR users.email LIKE '%cingel%'))
 
+== Installation
+
+  ruby script/plugin install git://github.com/cingel/simple_search.git
 
 == More info
 
