@@ -2,9 +2,9 @@
 
 SimpleSearch brings simple search to ActiveRecord. It ads <tt>simple_search</tt> named scope that accepts query as parameter.
 
-The idea is that you provide the query and plugin does the rest (parse query and compose where statement).
+The idea is that you provide the query and plugin does the rest (splits query to keywords and compose where statement).
 
-As you can see from example below, it works best in combination with a simple search form.
+This can be very useful in case you just want to filter list of records by some query, you have autocomplete field, ... or something similar.
 
 == Example
 
@@ -37,7 +37,7 @@ Simple query
   User.simple_search("vlado")
   # => SELECT * FROM "users" WHERE (users.id LIKE '%vlado%' OR users.login LIKE '%vlado%' OR users.email LIKE '%vlado%' OR users.crypted_password LIKE '%vlado%' OR users.salt LIKE '%vlado%') 
   
-You can also provide <tt>:columns => :column1, :column2</tt> option to <tt>acts_as_simply_searchable</tt> to limit search only to those columns
+You can also provide <tt>:columns => :column1, :column2</tt> option to limit search only to those columns.
   
   class User < ActiveRecord::Base
     acts_as_simply_searchable :columns => :login, :email
@@ -49,7 +49,12 @@ You can also provide <tt>:columns => :column1, :column2</tt> option to <tt>acts_
 More complex query
   
   User.simple_search("vlado, cingel")
+  # will search for users matching 'vlado' and 'cingel' keywords
   # => SELECT * FROM "users" WHERE ((users.login LIKE '%vlado%' OR users.email LIKE '%vlado%') AND (users.login LIKE '%cingel%' OR users.email LIKE '%cingel%'))
 
+
+== More info
+
+http://kolodvor.net/2010/06/26/simple-search-rails-plugin/
 
 Copyright (c) 2010 Vlado Cingel, released under the MIT license
