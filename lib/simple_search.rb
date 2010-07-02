@@ -7,11 +7,12 @@ module SimpleSearch
   module ClassMethods
     
     def acts_as_simply_searchable(options = {})
-      @@simple_search_columns = options[:columns] ? Array(options[:columns]) : self.column_names
+      simple_search_options = options
+      
       named_scope :simple_search, lambda { |query|
         unless query.blank?
           keywords = extract_keywords_from_query(query)
-          fields = @@simple_search_columns
+          fields = simple_search_options[:columns] ? Array(simple_search_options[:columns]) : self.column_names
           keyword_conditions = []
           keywords.each do |keyword|
             keyword_condition = fields.collect { |field_name| "#{self.table_name}.#{field_name} LIKE '%#{keyword}%'" }.join(' OR ')
@@ -21,10 +22,21 @@ module SimpleSearch
           { :conditions => conditions }
         end
       }
+      
       private
+      
         def self.extract_keywords_from_query(query)
           query.to_s.gsub(',', ' ').split(' ').collect { |keyword| keyword.strip }
         end
+        
+        def self.simple_search_options
+          @@simple_search_options
+        end
+
+        def self.simple_search_options=(options = {})
+          @@simple_search_options = options
+        end
+        
     end
     
   end
