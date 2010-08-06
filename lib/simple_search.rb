@@ -38,6 +38,7 @@ module SimpleSearch
         end
         
     end
+    alias :simply_searchable :acts_as_simply_searchable
     
   end
   
