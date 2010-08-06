@@ -17,7 +17,7 @@ This can be very useful in case you just want to filter list of records by some 
 === Model
   
   class User < ActiveRecord::Base
-    acts_as_simply_searchable
+    simply_searchable
   end
   
   # Columns: id, login, email, crypted_password, salt
@@ -40,7 +40,7 @@ Simple query
 You can also provide <tt>:columns => :column1, :column2</tt> option to limit search only to those columns.
   
   class User < ActiveRecord::Base
-    acts_as_simply_searchable :columns => :login, :email
+    simply_searchable :columns => :login, :email
   end
   
   User.simple_search("vlado")
