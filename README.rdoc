@@ -6,6 +6,8 @@ The idea is that you provide the query and plugin does the rest (splits query to
 
 This can be very useful in case you just want to filter list of records by some query, you have autocomplete field, ... or something similar.
 
+*FOR RAILS 2.X SUPPORT YOU SHOULD SWITCH TO "rails2" BRANCH*
+
 == Example
 
 === View
@@ -54,7 +56,7 @@ More complex query
 
 == Installation
 
-  ruby script/plugin install git://github.com/cingel/simple_search.git
+  rails plugin install git://github.com/cingel/simple_search.git
 
 == More info
 

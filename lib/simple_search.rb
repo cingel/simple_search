@@ -9,7 +9,7 @@ module SimpleSearch
     def acts_as_simply_searchable(options = {})
       simple_search_options = options
       
-      named_scope :simple_search, lambda { |query|
+      scope :simple_search, lambda { |query|
         unless query.blank?
           keywords = extract_keywords_from_query(query)
           fields = simple_search_options[:columns] ? Array(simple_search_options[:columns]) : self.column_names
